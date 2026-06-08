@@ -120,6 +120,11 @@
   .similar-btn:hover { background: #e6f4ea; }
 
   .q-standard { font-size: 11px; color: #80868b; font-weight: 500; margin-top: 6px; display: inline-block; background: #f1f3f4; padding: 2px 8px; border-radius: 4px; }
+
+  .struggle-star { color: #f4b400; font-size: 11px; margin-left: 4px; vertical-align: middle; }
+  .struggle-key { background: #fff8e1; border: 1px solid #f4b400; border-radius: 8px; padding: 12px 16px; margin: 16px 24px; display: flex; align-items: center; gap: 10px; font-size: 13px; color: #5f6368; }
+  .struggle-key .star-icon { font-size: 20px; flex-shrink: 0; }
+  .struggle-key strong { color: #202124; }
   .answer-section { margin-top: 16px; }
 
   /* VIDEO PANEL */
@@ -190,7 +195,7 @@
     <h2>3rd Grade NJSLA</h2>
     <p>20 released questions with video explanations</p>
   </div>
-  <div class="questions-wrap" id="g3-questions"></div>
+  <div class="questions-wrap" id="g3-questions"><div id="g3-key-placeholder"></div></div>
 </div>
 
 <!-- 4TH GRADE PAGE -->
@@ -199,7 +204,7 @@
     <h2>4th Grade NJSLA</h2>
     <p>20 released questions with video explanations</p>
   </div>
-  <div class="questions-wrap" id="g4-questions"></div>
+  <div class="questions-wrap" id="g4-questions"><div id="g4-key-placeholder"></div></div>
 </div>
 
 <!-- 5TH GRADE PAGE -->
@@ -208,7 +213,7 @@
     <h2>5th Grade NJSLA Math</h2>
     <p>20 released questions with video explanations</p>
   </div>
-  <div class="questions-wrap" id="g5-questions"></div>
+  <div class="questions-wrap" id="g5-questions"><div id="g5-key-placeholder"></div></div>
 </div>
 
 <script>
@@ -365,10 +370,14 @@ function buildGrade(gid) {
   if (wrap.dataset.built) return;
   wrap.dataset.built = '1';
   const qs = data[gid];
-  wrap.innerHTML = qs.map((q, i) => buildCard(gid, q, i)).join('');
+  const keyBanner = `<div class="struggle-key"><span class="star-icon">⭐</span><span><strong>⭐ = Biggest struggle areas on the NJSLA</strong> — These questions cover standards where NJ students historically score the lowest. Pay extra attention to these!</span></div>`;
+  wrap.innerHTML = keyBanner + qs.map((q, i) => buildCard(gid, q, i)).join('');
 }
 
+const struggleStandards = new Set(["3.NF.A.1", "3.NF.A.2", "3.NF.A.3", "3.NF.A.3.D", "3.OA.A.2", "3.OA.A.3", "3.OA.B.5", "3.OA.D.9", "3.MD.C.5", "3.MD.C.7", "3.MD.C.7.D", "3.MD.D.8", "4.NF.A.1", "4.NF.A.2", "4.NF.B.3", "4.NF.C.5", "4.NF.C.6", "4.NF.C.7", "4.NBT.B.5", "4.NBT.B.6", "4.OA.A.1", "4.OA.A.2", "4.OA.A.3", "5.NF.A.1", "5.NF.A.2", "5.NF.B.3", "5.NF.B.4", "5.NF.B.5", "5.NF.B.7", "5.NBT.A.2", "5.NBT.A.3", "5.NBT.A.4", "5.NBT.B.6", "5.NBT.B.7", "5.MD.C.3"]);
+
 function buildCard(gid, q, i) {
+  const isStruggle = q.std && struggleStandards.has(q.std);
   const typeLbl = q.type === 'mc' ? 'Multiple choice' : q.type === 'ms' ? 'Multi-select' : 'Open response';
   const typeCls = q.type === 'mc' ? 'mc' : q.type === 'ms' ? 'ms' : '';
   const questionHtml = buildQuestion(gid, q, i);
@@ -378,7 +387,7 @@ function buildCard(gid, q, i) {
     <div class="q-card-head" onclick="toggleCard('${gid}-q${i}')">
       <div class="q-num-badge" style="background:${gid==='g3'?'#1a73e8':gid==='g4'?'#137333':'#e8710a'}">${q.n}</div>
       <div class="q-preview">${q.preview}</div>
-      <span class="q-type-badge ${typeCls}">${typeLbl}</span>
+      <span class="q-type-badge ${typeCls}">${typeLbl}</span>${isStruggle ? '<span class="struggle-star" title="Biggest struggle area on NJSLA">⭐</span>' : ''}
       <span class="q-chevron">▾</span>
     </div>
     <div class="q-card-body">
