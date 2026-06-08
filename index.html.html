@@ -145,18 +145,18 @@
     <p>PS 28 Challengers — Select a grade to begin</p>
   </div>
   <div class="grade-cards">
-    <div class="grade-card" onclick="showPage('g3')">
-      <div class="num">3</div>
+    <div class="grade-card" onclick="showPage('g3')" style="border-top:4px solid #1a73e8;">
+      <div class="num" style="color:#1a73e8;">3</div>
       <div class="lbl">3rd Grade</div>
       <div class="count">20 questions</div>
     </div>
-    <div class="grade-card" onclick="showPage('g4')">
-      <div class="num">4</div>
+    <div class="grade-card" onclick="showPage('g4')" style="border-top:4px solid #137333;">
+      <div class="num" style="color:#137333;">4</div>
       <div class="lbl">4th Grade</div>
       <div class="count">20 questions</div>
     </div>
-    <div class="grade-card" onclick="showPage('g5')">
-      <div class="num">5</div>
+    <div class="grade-card" onclick="showPage('g5')" style="border-top:4px solid #e8710a;">
+      <div class="num" style="color:#e8710a;">5</div>
       <div class="lbl">5th Grade</div>
       <div class="count">20 questions</div>
     </div>
@@ -165,7 +165,7 @@
 
 <!-- 3RD GRADE PAGE -->
 <div id="page-g3" class="page">
-  <div class="grade-header">
+  <div class="grade-header" style="background:#1a73e8;">
     <h2>3rd Grade NJSLA</h2>
     <p>20 released questions with video explanations</p>
   </div>
@@ -174,7 +174,7 @@
 
 <!-- 4TH GRADE PAGE -->
 <div id="page-g4" class="page">
-  <div class="grade-header">
+  <div class="grade-header" style="background:#137333;">
     <h2>4th Grade NJSLA</h2>
     <p>20 released questions with video explanations</p>
   </div>
@@ -183,7 +183,7 @@
 
 <!-- 5TH GRADE PAGE -->
 <div id="page-g5" class="page">
-  <div class="grade-header">
+  <div class="grade-header" style="background:#e8710a;">
     <h2>5th Grade NJSLA Math</h2>
     <p>20 released questions with video explanations</p>
   </div>
@@ -355,7 +355,7 @@ function buildCard(gid, q, i) {
   const esText = spanishText[gid] && spanishText[gid][q.n] ? spanishText[gid][q.n] : q.text;
   return `<div class="q-card" id="${gid}-q${i}">
     <div class="q-card-head" onclick="toggleCard('${gid}-q${i}')">
-      <div class="q-num-badge">${q.n}</div>
+      <div class="q-num-badge" style="background:${gid==='g3'?'#1a73e8':gid==='g4'?'#137333':'#e8710a'}">${q.n}</div>
       <div class="q-preview">${q.preview}</div>
       <span class="q-type-badge ${typeCls}">${typeLbl}</span>
       <span class="q-chevron">▾</span>
@@ -363,7 +363,7 @@ function buildCard(gid, q, i) {
     <div class="q-card-body">
       <div class="q-layout">
         <div>
-          <div class="q-standard" id="std-${gid}-${q.n}">${q.std || ''}</div>
+          <div class="q-standard" style="background:${gid==='g3'?'#e8f0fe':gid==='g4'?'#e6f4ea':'#fce8e6'};color:${gid==='g3'?'#1a73e8':gid==='g4'?'#137333':'#e8710a'}" id="std-${gid}-${q.n}">${q.std || ''}</div>
       <div class="lang-toggle">
             <button class="lang-btn active" onclick="setLang('${gid}-${q.n}','en',this)">EN</button>
             <button class="lang-btn" onclick="setLang('${gid}-${q.n}','es',this)">ES</button>
@@ -388,7 +388,7 @@ function buildCard(gid, q, i) {
 function buildQuestion(gid, q, i) {
   const uid = `${gid}-${q.n}`;
   const hasSimilar = similarQuestions[uid] ? true : false;
-  const similarBtn = hasSimilar ? `<button class="similar-btn" onclick="openSimilar('${uid}', 'Grade ${gid === 'g3' ? '3' : gid === 'g4' ? '4' : '5'} Q${q.n}')">📝 Try Similar Questions</button>` : '';
+  const similarBtn = hasSimilar ? `<button class="similar-btn" style="border-color:${gid==='g3'?'#1a73e8':gid==='g4'?'#137333':'#e8710a'};color:${gid==='g3'?'#1a73e8':gid==='g4'?'#137333':'#e8710a'}" onclick="openSimilar('${uid}', 'Grade ${gid === 'g3' ? '3' : gid === 'g4' ? '4' : '5'} Q${q.n}')">📝 Try Similar Questions</button>` : '';
   if (q.type === 'or') {
     return `<div class="open-answer-hidden">Try the question, then watch the video for the answer!</div>
       <div class="open-answer" id="ans-${uid}">${q.answer}</div>
